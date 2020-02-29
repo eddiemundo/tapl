@@ -15,6 +15,16 @@
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
     "ava": "^3.3.0",
+    "esm": "^3.2.25",
     "nodemon": "^2.0.2"
+  },
+  "ava": {
+    "files": [
+      "test/*"
+    ],
+    "require": [
+      "esm"
+    ],
+    "verbose": true
   }
 }
