@@ -2,5 +2,6 @@
 
 Implementation of various things from the textbook "Types and Programming Languages" by Pierce.
 
-Currently contains an interpreter for a pure lambda calculus, and a handwritten lexer and parser for it. The main internal representation uses de Bruijn indices. For usage see some of the tests in `test/parser.js`.
+Currently contains interpreters for a pure lambda calculus, and simply-typed pure lambda calculus.
 
+The lexer is written using a handrolled parser combinator library, the parser is written Pratt-style, and there is an algebraic data type library to help write the languages themselves.
