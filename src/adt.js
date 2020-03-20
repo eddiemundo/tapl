@@ -126,14 +126,13 @@ export const tags_equal = (l, r) => {
   return l[properties_symbol].tag === r[properties_symbol].tag
 }
 
-// partially applies function with o, then adds this function to o
+// partially applies function with o, then adds this function to o impurely
 const add_methods = (o, methods) => {
   for (let [method_name, method] of Object.entries(methods)) {
     o[method_name] = method.bind(null, o)
   }
 }
 
-// things only make sense when the values have the same type
 export const SAdt = (name, definition, methods) => {
   const type = {
     [properties_symbol]: {
@@ -141,7 +140,7 @@ export const SAdt = (name, definition, methods) => {
       definition: definition,
     },
     // type equal should not be used directly. it is used by equal
-    // defaults to structural equal
+    // defaults to structural equality
     equal: (l, r) => {
       const l_properties = l[properties_symbol]
       const r_properties = r[properties_symbol]
@@ -191,28 +190,5 @@ export const SAdt = (name, definition, methods) => {
     }
   }
   return type
-}
-
-
-// impure
-export const with_equal = (adt, f) => {
-  adt.equal = (left, right) => {
-    if (left.type !== adt.type) {
-      throw new Error(`Expected type "${adt.type}", got ${left.type} at ${info_to_string(left.info)}`)
-    } else if (right.type !== adt.type) {
-      throw new Error(`Expected type "${adt.type}", got ${right.type} at ${info_to_string(right.info)}`)
-    } else {
-      const tags = Object.keys(adt)
-      if (!tags.includes(left.tag)) {
-        throw new Error(`Unknown tag ${left.tag} at ${info_to_string(left.info)}`)
-      } else if (!tags.includes(right.tag)) {
-        throw new Error(`Unknown tag ${right.tag} at ${info_to_string(right.info)}`)
-      } else if (left.tag === right.tag) {
-        return f(left, right)
-      } else {
-        return false
-      }
-    }
-  }
 }
 
