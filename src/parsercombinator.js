@@ -58,6 +58,7 @@ const Parser = parse => {
 
 const is_newline = c => c === '\n'
 
+// String -> Parser String
 export const string = s => Parser((source, start) => {
   let { index, line, column } = start
   if (source[index] === undefined) {
@@ -235,18 +236,4 @@ export const many = parser => Parser((source, start) => {
   }
   return Success(values, first_result_start, last_success.end)
 })
-
-// we need something where we can join parsers side by side
-// it's called sequence
-// we need something where we can join the longest sequence of successful parsers
-//
-
-
-// Parser a -> Parser a
-//export const skip = parser => Parser((source, start) => {
-//  const result = parser.parse(source, start)
-//  result.start = result.end
-//  result.value = ''
-//  return result
-//})
 

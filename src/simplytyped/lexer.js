@@ -1,5 +1,5 @@
 import { 
-  deep_equal,
+//  deep_equal,
   flatten_array,
   Queue,
 } from '../../src/util'
@@ -10,8 +10,8 @@ import {
   string,
   concatenate,
   or,
-  sequence,
-  sequence_flat,
+//  sequence,
+//  sequence_flat,
   sequence_some_longest,
   lookahead,
   some,

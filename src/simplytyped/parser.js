@@ -1,56 +1,9 @@
 import {
 } from '../../src/adt'
 import {
-  take_some_while,
-  string,
-  sequence_some_longest,
-  many,
-} from '../../src/parsercombinator'
-import {
   Term,
   Type,
 } from '../../src/simplytyped/core'
-
-//import * as lexer from '../../src/lexer'
-//import {create_abs, create_var, create_app, get_variable_names, convert_to_debruijn} from '../../src/simplytyped/term'
-
-const is_alphanumeric = c => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.includes(c)
-const is_whitespace = c => ' '.includes(c)
-
-const whitespace_parser = take_some_while(c => is_whitespace(c))
-
-const identifier_parser = many(whitespace_parser).skip_left(take_some_while(c => is_alphanumeric(c)))
-const backslash_parser = many(whitespace_parser).skip_left(string('\\'))
-const period_parser = many(whitespace_parser).skip_left(string('.'))
-const lparen_parser = many(whitespace_parser).skip_left(string('('))
-const rparen_parser = many(whitespace_parser).skip_left(string(')'))
-const rarrow_parser = many(whitespace_parser).skip_left(string('->'))
-const colon_parser = many(whitespace_parser).skip_left(string(':'))
-
-
-// \a:Bool.a b
-// Lambda
-//   Binder
-//     a
-//     Bool
-//   App
-//     Var
-//       a
-//     Var
-//       b
-// \a:Bool->Bool.a b
-// Lambda
-//   Binder
-//     a
-//     Function
-//       Bool
-//       Bool
-//   App
-//     Var
-//       a
-//     Var
-//       b
-
 
 const parse = (prefix_parser_table, infix_parser_table, precedence_table) => (tokens, precedence) => {
   const token = tokens.dequeue()
@@ -141,23 +94,6 @@ const infix_term_parser_table = {
 
 export const parse_term = parse(prefix_term_parser_table, infix_term_parser_table, term_precedence_table)
 
-// parse : Queue Token -> Term
-//export const parse_term = (tokens, precedence) => {
-//  //console.log('Parse')
-//  const token = tokens.dequeue()
-//  const parse_term_prefix = prefix_term_parser_table[token.tag]
-//
-//  let left = parse_term_prefix(token, tokens)
-//
-//  while(tokens.length > 0 && precedence < precedence_term_table[tokens.peek().tag]) {
-//    const next_token = tokens.dequeue()
-//    const parse_term_infix = infix_term_parser_table[next_token.tag]
-//    left = parse_term_infix(left, next_token, tokens)
-//  }
-//
-//  return left
-//}
-
 export const string_to_debruijn_term = s => {
   const tokens = lexer.lex(s)
   const term = parse_term(tokens, 0)
@@ -165,6 +101,4 @@ export const string_to_debruijn_term = s => {
   const debruijn_term = convert_to_debruijn(naming_context, term)
   return debruijn_term
 }
-
-const info_to_string = info => `${info[0]}:${info[1]}`
 
