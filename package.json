@@ -14,7 +14,7 @@
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
-    "ava": "^3.3.0",
+    "ava": "^5.2.0",
     "esm": "^3.2.25",
     "nodemon": "^2.0.2"
   },
